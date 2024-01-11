@@ -52,6 +52,7 @@ class Goal(db.Model):
         self.title = kwargs.get("title", "")
         self.description = kwargs.get("description", "")
         self.done = kwargs.get("done", False)
+        self.user_id = kwargs.get("user_id", 0)
 
     def serialize(self):
         """
@@ -62,7 +63,8 @@ class Goal(db.Model):
             "id": self.id,
             "title": self.title,
             "description": self.description,
-            "course": user.simple_serialize(),
+            "done": self.done,
+            "goal": user.simple_serialize(),
         }
 
     def simple_serialize(self):

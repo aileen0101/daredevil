@@ -88,7 +88,8 @@ def get_all_goals(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return failure_response("User not found!")
-    goals = user.goals  # not sure if this is allowed
+    user_dict = user.serialize()
+    goals = user_dict["goals"]
     return success_response({"goals": goals})
 
 
