@@ -75,3 +75,9 @@ class Goal(db.Model):
             "description": self.description,
             "done": self.done,
         }
+
+    def update_goal_by_id(self, is_done):
+        """
+        Update a Goal object.
+        """
+        self.done = is_done
