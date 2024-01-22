@@ -41,7 +41,7 @@ struct ContentView: View {
                         )
                 }
                 HStack(spacing: 40){
-                    Text("Goal completed:")
+                    Text("Dare completed:")
                         .font(.largeTitle)
                         .fontWeight(.thin)
                     RoundedRectangle(cornerRadius: 4)
