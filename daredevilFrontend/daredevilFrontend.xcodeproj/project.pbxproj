@@ -11,6 +11,8 @@
 		63FAD2902B5EE95600BDF407 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FAD28F2B5EE95600BDF407 /* ContentView.swift */; };
 		63FAD2922B5EE95700BDF407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63FAD2912B5EE95700BDF407 /* Assets.xcassets */; };
 		63FAD2952B5EE95700BDF407 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63FAD2942B5EE95700BDF407 /* Preview Assets.xcassets */; };
+		63FAD29C2B5EEC5A00BDF407 /* goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FAD29B2B5EEC5900BDF407 /* goal.swift */; };
+		63FAD29E2B5EEE3000BDF407 /* user.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FAD29D2B5EEE3000BDF407 /* user.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		63FAD28F2B5EE95600BDF407 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		63FAD2912B5EE95700BDF407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63FAD2942B5EE95700BDF407 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		63FAD29B2B5EEC5900BDF407 /* goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = goal.swift; sourceTree = "<group>"; };
+		63FAD29D2B5EEE3000BDF407 /* user.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,8 @@
 				63FAD28F2B5EE95600BDF407 /* ContentView.swift */,
 				63FAD2912B5EE95700BDF407 /* Assets.xcassets */,
 				63FAD2932B5EE95700BDF407 /* Preview Content */,
+				63FAD29B2B5EEC5900BDF407 /* goal.swift */,
+				63FAD29D2B5EEE3000BDF407 /* user.swift */,
 			);
 			path = daredevilFrontend;
 			sourceTree = "<group>";
@@ -137,6 +143,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63FAD29E2B5EEE3000BDF407 /* user.swift in Sources */,
+				63FAD29C2B5EEC5A00BDF407 /* goal.swift in Sources */,
 				63FAD2902B5EE95600BDF407 /* ContentView.swift in Sources */,
 				63FAD28E2B5EE95600BDF407 /* daredevilFrontendApp.swift in Sources */,
 			);
