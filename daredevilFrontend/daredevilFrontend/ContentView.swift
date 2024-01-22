@@ -16,12 +16,18 @@ extension Color {
 
 struct ContentView: View {
     var body: some View {
+        NavigationStack{
+            homeFeed
+        }
         
+    }
+    
+    private var homeFeed: some View {
         NavigationView{
             VStack(spacing: 40){
-                Text("Today, I dare you to ...")
+                Text("Today, I dare you to . . .")
                     .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .fontWeight(.light)
                     
                 ZStack{
                     Text("Try a new food.")
@@ -37,7 +43,7 @@ struct ContentView: View {
                 HStack(spacing: 40){
                     Text("Goal completed:")
                         .font(.largeTitle)
-                        .fontWeight(.medium)
+                        .fontWeight(.thin)
                     RoundedRectangle(cornerRadius: 4)
                         .frame(width: 40, height: 40)
                         .foregroundColor(.figmaGreen)
@@ -55,41 +61,40 @@ struct ContentView: View {
             .navigationTitle(Text("Today's Dare"))
             .navigationBarTitleDisplayMode(.inline)
         }
-        
     }
     
     private var navBar : some View {
         HStack(spacing: 40){
             Spacer()
-            Button {
-                // TODO: do something here
-                
-            } label: {
-                Image("gift")
-                    .resizable()
-                    .frame(width: 56, height: 56)
-            }
-            
+            giftButton
             Spacer()
-            Button {
-                // TODO: do something here
-            } label: {
-                Image("addNew")
-                    .resizable()
-                    .frame(width: 56, height: 56)
+            NavigationLink(destination: NewGoalView()) {
+                addNewButton
             }
             Spacer()
-            Button {
-                // TODO: do something here
-            } label: {
-                Image("table")
-                    .resizable()
-                    .frame(width: 56, height: 56)
+            NavigationLink(destination: AllGoalsView()) {
+                seeTableButton
             }
             Spacer()
         }
         .padding(.top, 20) // Add padding above the buttons
         .background(Color.figmaGreen)
+    }
+    private var giftButton: some View {
+        Image("gift")
+            .resizable()
+            .frame(width: 56, height: 56)
+    }
+    private var addNewButton: some View {
+        Image("addNew")
+            .resizable()
+            .frame(width: 56, height: 56)
+    }
+    
+    private var seeTableButton: some View {
+        Image("table")
+            .resizable()
+            .frame(width: 56, height: 56)
     }
 }
 
