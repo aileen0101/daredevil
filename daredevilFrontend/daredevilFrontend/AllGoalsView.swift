@@ -9,20 +9,24 @@ import SwiftUI
 
 struct AllGoalsView: View {
     var body: some View {
-        VStack{
-            VStack{
-                List(goals, id: \.self) {
-                    goal in GoalInfoRow(goal)
+            NavigationView {
+                VStack{
+                    VStack{
+                        List(goals, id: \.self) {
+                            goal in GoalInfoRow(goal)
+                            
+                            
+                        }
+                        
+                    }
                     
-                    
+                    HorizontalBar
                 }
                 
+                .padding(.top, 10)
+                .navigationTitle(Text("All Dares"))
+                .navigationBarTitleDisplayMode(.inline)
             }
-            
-            HorizontalBar
-        }
-        .padding(.top, 10)
-        .navigationTitle(Text("All Dares"))
 }
 
 private func GoalInfoRow(_ goal: Goal) -> some View {
@@ -30,7 +34,7 @@ private func GoalInfoRow(_ goal: Goal) -> some View {
     ZStack {
         let color = determineColor(goal)
         let imageGoal = determineImage(goal)
-        Rectangle()
+        RoundedRectangle(cornerRadius: 8)
             .foregroundStyle(color)
         HStack{
             Image(imageGoal)
@@ -78,10 +82,9 @@ private var HorizontalBar: some View {
   }
 
 private var handleIcons: some View {
-    NavigationStack {
         
     HStack(spacing: 70) {
-    
+    Spacer()
     NavigationLink {
         ContentView()
     } label: {
@@ -92,19 +95,17 @@ private var handleIcons: some View {
     } label: {
     addIcon
     }
-    
+    Spacer()
     }
-    .foregroundColor(.figmaGreen)
     .padding(.top, 20)
-    
+    .background(Color.figmaGreen)
 
-}
 
 }
 private var backIcon: some View {
        Image("backButton")
        .resizable()
-       .frame(width: 57, height: 57)
+       .frame(width: 53, height: 53)
  }
 
 private var addIcon: some View {
