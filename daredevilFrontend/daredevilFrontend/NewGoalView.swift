@@ -138,8 +138,6 @@ struct NewGoalView: View {
     }
     
     
-    
-    
     private var backToMainViewButton: some View {
         Image("arrow")
             .resizable()
