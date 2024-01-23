@@ -15,6 +15,8 @@ extension Color {
 
 
 struct ContentView: View {
+    @State private var completed : Bool = false
+    
     var body: some View {
         NavigationStack{
             homeFeed
@@ -44,13 +46,7 @@ struct ContentView: View {
                     Text("Dare completed:")
                         .font(.largeTitle)
                         .fontWeight(.thin)
-                    RoundedRectangle(cornerRadius: 4)
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.figmaGreen)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4)
-                                .stroke(Color.black, lineWidth: 2) // border color + width
-                        )
+                    completeToggleButton
                 }
                 
                 Spacer()
@@ -60,6 +56,31 @@ struct ContentView: View {
             .padding(.top, 100)
             .navigationTitle(Text("Today's Dare"))
             .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+    
+    private var incompleteButton : some View {
+        RoundedRectangle(cornerRadius: 4)
+            .frame(width: 40, height: 40)
+            .foregroundColor(.figmaGreen)
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(Color.black, lineWidth: 2) // border color + width
+            )
+    }
+    
+    private var completeToggleButton : some View {
+        Button {
+            completed.toggle()
+        } label: {
+            if completed == true {
+                Image("done")
+                    .resizable()
+                    .frame(width: 42, height: 42)
+                //somehow update the backend!
+            } else {
+                incompleteButton
+            }
         }
     }
     
