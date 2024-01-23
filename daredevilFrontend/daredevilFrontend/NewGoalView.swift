@@ -104,7 +104,20 @@ struct NewGoalView: View {
         .background(Color.figmaGreen)
     }
     
-    private var addGoalButton: some View {
+    private var addGoalButton : some View {
+        Button {
+            let newGoal = Goal(title: newDareTitle, description: newDareDescription, done: false, userId: 0)
+            goals.append(newGoal)
+            
+            newDareTitle = ""
+            newDareDescription = ""
+        } label:{
+            addGoalLayout
+        }
+        
+    }
+    
+    private var addGoalLayout: some View {
         ZStack{
             HStack(spacing: 77) {
                 Image("pointer")
@@ -123,6 +136,10 @@ struct NewGoalView: View {
             
         }
     }
+    
+    
+    
+    
     private var backToMainViewButton: some View {
         Image("arrow")
             .resizable()
