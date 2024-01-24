@@ -15,8 +15,10 @@ extension Color {
 
 
 struct ContentView: View {
+    // MARK: - Properties
     @State private var completed : Bool = false
     
+    // MARK: - Main view
     var body: some View {
         NavigationStack{
             homeFeed

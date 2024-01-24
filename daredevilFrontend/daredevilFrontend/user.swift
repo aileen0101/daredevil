@@ -8,12 +8,12 @@
 import Foundation
 
 struct User{
-    let userId: Int
+    let id: Int
     let name: String
-    let goalsList: [Goal]
+    let goals: [Goal]
 }
 
 var users = [
-    User(userId: 0, name: "Belle", goalsList: goals),
-    User(userId: 1, name: "Aileen", goalsList: [])
+    User(id: 0, name: "Belle", goals: dummyGoals),
+    User(id: 1, name: "Aileen", goals: [])
 ]

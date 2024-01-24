@@ -106,8 +106,8 @@ struct NewGoalView: View {
     
     private var addGoalButton : some View {
         Button {
-            let newGoal = Goal(title: newDareTitle, description: newDareDescription, done: false, userId: 0)
-            goals.append(newGoal)
+            let newGoal = Goal(id:1, title: newDareTitle, description: newDareDescription, done: false)
+            dummyGoals.append(newGoal)
             
             newDareTitle = ""
             newDareDescription = ""
