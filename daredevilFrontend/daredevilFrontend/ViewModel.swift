@@ -54,20 +54,12 @@ class ViewModel: ObservableObject{
         else{
             return
         }
-        
         // 1. Create a URL request
         var request = URLRequest(url: url)
         
         // 2. set the method, body, and headers the endpoint requires
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-//        let body : [String: AnyHashable] = [
-//            "title": "Social",
-//            "description": "Go try a new restaurant in downtown Ithaca",
-//            "done": false
-//        ]
-        
         
         do {
             let encoder = JSONEncoder()
@@ -77,8 +69,6 @@ class ViewModel: ObservableObject{
             print(error)
             return
         }
-        // use JSON serialization to get data from an object. Conversion of JSON might fail
-//        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
         
         // 3. Make the request
         let task = URLSession.shared.dataTask(with: request){data, _, error in
@@ -91,7 +81,6 @@ class ViewModel: ObservableObject{
             // convert data into JSON
             do {
                 let response = try JSONDecoder().decode(NewGoalResponse.self, from: data)
-//                let response = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
                 print("SUCCESS:  \(response)")
             }
             catch {

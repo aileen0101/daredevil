@@ -110,14 +110,11 @@ struct NewGoalView: View {
         Button {
             let newGoalBody = NewGoalResponse(title: newDareTitle, description: newDareDescription, done: false)
             viewModel.makePostRequest(newGoalBody: newGoalBody)
+            newDareTitle = ""
+            newDareDescription = ""
         } label:{
             addGoalLayout
         }
-        .onReceive(viewModel.$goals) { _ in
-            newDareTitle = ""
-            newDareDescription = ""
-        }
-        
     }
     
     private var addGoalLayout: some View {
