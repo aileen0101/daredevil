@@ -100,7 +100,8 @@ struct NewGoalView: View {
             }
             Spacer()
         }
-        .padding(.top, 10) // Add padding above the button
+        .padding(.top, 30) // Add padding above the button
+        .padding(.bottom,40)
         .background(Color.figmaGreen)
     }
     
