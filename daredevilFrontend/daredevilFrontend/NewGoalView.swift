@@ -10,6 +10,8 @@ import SwiftUI
 
 
 struct NewGoalView: View {
+    // MARK: - Properties
+    @StateObject var viewModel = ViewModel()
     
     // MARK: - Data
     @State private var newDareTitle : String = ""
@@ -106,13 +108,14 @@ struct NewGoalView: View {
     
     private var addGoalButton : some View {
         Button {
-            let newGoal = Goal(id:1, title: newDareTitle, description: newDareDescription, done: false)
-            dummyGoals.append(newGoal)
-            
-            newDareTitle = ""
-            newDareDescription = ""
+            let newGoalBody = NewGoalResponse(title: newDareTitle, description: newDareDescription, done: false)
+            viewModel.makePostRequest(newGoalBody: newGoalBody)
         } label:{
             addGoalLayout
+        }
+        .onReceive(viewModel.$goals) { _ in
+            newDareTitle = ""
+            newDareDescription = ""
         }
         
     }
