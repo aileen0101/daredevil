@@ -26,7 +26,6 @@ struct NewGoalView: View {
                 mainBody
                 navBar
             }
-//            .padding(.top, 100)
             .navigationTitle(Text("New Dares"))
             .navigationBarTitleDisplayMode(.inline)
         }

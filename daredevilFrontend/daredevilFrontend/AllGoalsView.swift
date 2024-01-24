@@ -60,10 +60,17 @@ private func GoalInfoRow(_ goal: Goal) -> some View {
 
     private func determineColor(_ goal: Goal) -> Color {
         var color : Color
+        // random boolean to decide beige or brown
+        let shouldUseBeige = Bool.random()
         if goal.done == true{
             color = Color.figmaGreen
         }else{
-            color = Color.figmaBeige
+            if shouldUseBeige == true {
+                color = Color.figmaBeige
+            }
+            else {
+                color = Color.figmaBrown
+            }
         }
         return color
     }
