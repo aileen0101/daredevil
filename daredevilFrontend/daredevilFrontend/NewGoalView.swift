@@ -10,6 +10,8 @@ import SwiftUI
 
 
 struct NewGoalView: View {
+    // MARK: - Properties
+    @StateObject var viewModel = ViewModel()
     
     // MARK: - Data
     @State private var newDareTitle : String = ""
@@ -26,7 +28,6 @@ struct NewGoalView: View {
                 mainBody
                 navBar
             }
-//            .padding(.top, 100)
             .navigationTitle(Text("New Dares"))
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -100,21 +101,20 @@ struct NewGoalView: View {
             }
             Spacer()
         }
-        .padding(.top, 10) // Add padding above the button
+        .padding(.top, 30) // Add padding above the button
+        .padding(.bottom,40)
         .background(Color.figmaGreen)
     }
     
     private var addGoalButton : some View {
         Button {
-            let newGoal = Goal(title: newDareTitle, description: newDareDescription, done: false, userId: 0)
-            goals.append(newGoal)
-            
+            let newGoalBody = NewGoalResponse(title: newDareTitle, description: newDareDescription, done: false)
+            viewModel.makePostRequest(newGoalBody: newGoalBody)
             newDareTitle = ""
             newDareDescription = ""
         } label:{
             addGoalLayout
         }
-        
     }
     
     private var addGoalLayout: some View {

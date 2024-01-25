@@ -7,28 +7,34 @@
 
 import SwiftUI
 
-struct AllGoalsView: View {
-    var body: some View {
-            NavigationView {
-                VStack{
-                    VStack{
-                        List(goals, id: \.self) {
-                            goal in GoalInfoRow(goal)
-                            
-                            
-                        }
-                        
-                    }
-                    
-                    HorizontalBar
-                }
-                
-                .padding(.top, 10)
-                .navigationTitle(Text("All Dares"))
-                .navigationBarTitleDisplayMode(.inline)
-            }
-}
 
+struct AllGoalsView: View {
+    // MARK: - Properties
+    @StateObject var viewModel = ViewModel()
+    
+    
+    // MARK: - Main views
+    var body: some View {
+        NavigationView {
+            VStack{
+                List(viewModel.goals, id: \.self) {
+                    // change back to "dummyGoals" instead of "viewModel.goals"
+                    goal in GoalInfoRow(goal)
+                }
+                .onAppear{
+                    viewModel.fetchGoals()
+                }
+                        
+                HorizontalBar
+            }
+            
+            
+            .padding(.top, 10)
+            .navigationTitle(Text("All Dares"))
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+    
 private func GoalInfoRow(_ goal: Goal) -> some View {
     
     ZStack {
@@ -60,10 +66,17 @@ private func GoalInfoRow(_ goal: Goal) -> some View {
 
     private func determineColor(_ goal: Goal) -> Color {
         var color : Color
+        // random boolean to decide beige or brown
+        let shouldUseBeige = Bool.random()
         if goal.done == true{
             color = Color.figmaGreen
         }else{
-            color = Color.figmaBeige
+            if shouldUseBeige == true {
+                color = Color.figmaBeige
+            }
+            else {
+                color = Color.figmaBrown
+            }
         }
         return color
     }
