@@ -19,7 +19,10 @@ struct GoalsResponse: Codable {
 
 class ViewModel: ObservableObject{
     @Published var goals: [Goal] = []
+    @Published var randomGoalDisplay: Goal = Goal(id: 0, title: "", description:"", done: false) // need a default goal to replace later
+    private var lastDisplayedDate: Date?
     
+    // MARK: - GET API handler
     func fetchGoals(){
         guard let url = URL(string: "http://35.245.47.106/api/users/1/goal/all/")
         else{
@@ -47,6 +50,15 @@ class ViewModel: ObservableObject{
         }
         task.resume()
     }
+    
+    // MARK: - Grab random goal from all goals. Could be nil.
+    func fetchRandomGoal() -> Goal? {
+        fetchGoals()
+        let randomGoal = goals.randomElement()
+        return randomGoal
+    }
+    
+    // MARK: - determine whether a day has passed
     
     // MARK: - POST API handler
     func makePostRequest(newGoalBody: NewGoalResponse){
