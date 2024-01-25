@@ -17,6 +17,7 @@ extension Color {
 struct ContentView: View {
     // MARK: - Properties
     @State private var completed : Bool = false
+    @StateObject var viewModel = ViewModel()
     
     // MARK: - Main view
     var body: some View {
@@ -34,15 +35,7 @@ struct ContentView: View {
                     .fontWeight(.light)
                     
                 ZStack{
-                    Text("Try a new food.")
-                        .font(.largeTitle)
-                        .fontWeight(.light)
-                        .foregroundColor(Color.black)
-                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundColor(.figmaBeige) // Set background color
-                        )
+                    goalText
                 }
                 HStack(spacing: 40){
                     Text("Dare completed:")
@@ -59,6 +52,23 @@ struct ContentView: View {
             .navigationTitle(Text("Today's Dare"))
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+    private func determineGoalText() -> String {
+        // 1. Fetch a random goal & unwrap optional
+        let randomGoal = viewModel.fetchRandomGoal()?.description ?? "You have no dares. Please enter goals in the New Goals page."
+        return randomGoal
+    }
+    
+    private var goalText : some View {
+        Text(determineGoalText())
+            .font(.largeTitle)
+            .fontWeight(.light)
+            .foregroundColor(Color.black)
+            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .foregroundColor(.figmaBeige) // Set background color
+            )
     }
     
     private var incompleteButton : some View {
