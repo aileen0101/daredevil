@@ -22,6 +22,13 @@ class ViewModel: ObservableObject{
     @Published var randomGoalDisplay: Goal = Goal(id: 0, title: "", description:"", done: false) // need a default goal to replace later
     private var lastDisplayedDate: Date?
     
+    // MARK: - INIT function - save the time you first open the app in User Defaults
+    init() {
+        // if firstDate is not nil, set it to first opened time
+        if UserDefaults.standard.value(forKey: "firstDate") == nil {
+            UserDefaults.standard.set(Date(), forKey: "firstDate")
+        }
+    }
     // MARK: - GET API handler
     func fetchGoals(){
         guard let url = URL(string: "http://35.245.47.106/api/users/1/goal/all/")
@@ -52,13 +59,46 @@ class ViewModel: ObservableObject{
     }
     
     // MARK: - Grab random goal from all goals. Could be nil.
-    func fetchRandomGoal() -> Goal? {
+//    func fetchRandomGoal() -> Goal? {
+//        fetchGoals()
+//        let randomGoal = goals.randomElement()
+//        // Save the last generated goal to UserDefaults
+//        if let randomGoalDescription = randomGoal?.description {
+//            UserDefaults.standard.set(randomGoalDescription, forKey: "lastGeneratedGoal")
+//        }
+//        return randomGoal
+//        
+//    }
+    func fetchRandomGoal(completion: @escaping (Goal?) -> Void) {
         fetchGoals()
         let randomGoal = goals.randomElement()
-        return randomGoal
+        // Save the last generated goal to UserDefaults
+        if let randomGoalDescription = randomGoal?.description {
+            UserDefaults.standard.set(randomGoalDescription, forKey: "lastGeneratedGoal")
+        }
+        completion(randomGoal)
     }
     
-    // MARK: - determine whether a day has passed
+    // MARK: - determine whether a day has passed since the last goal was generated
+    func hasDayPassed() -> Bool {
+        guard let lastGenerationDate = UserDefaults.standard.value(forKey: "lastGoalGenerationDate") as? Date else {
+            // If there's no stored date, a day has definitely passed
+            print("I am inside the guard let")
+            return true
+        }
+        print("last generation date: \(lastGenerationDate)")
+        let currentDate = Date()
+        print("current date: \(currentDate)")
+        let calendar = Calendar.current
+//        let components = calendar.dateComponents([.day], from: lastGenerationDate, to: currentDate)
+//        let daysPassed = components.day ?? 0
+//        print("days passed \(daysPassed)")
+//        return daysPassed > 0
+        let componentsMinutes = calendar.dateComponents([.minute], from: lastGenerationDate, to: currentDate)
+        let minutesPassed = componentsMinutes.minute ?? 0
+        print("minutes passed \(minutesPassed)")
+        return minutesPassed > 0
+    }
     
     // MARK: - POST API handler
     func makePostRequest(newGoalBody: NewGoalResponse){

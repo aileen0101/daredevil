@@ -18,6 +18,7 @@ struct ContentView: View {
     // MARK: - Properties
     @State private var completed : Bool = false
     @StateObject var viewModel = ViewModel()
+    @State private var goalText: String = ""
     
     // MARK: - Main view
     var body: some View {
@@ -35,7 +36,7 @@ struct ContentView: View {
                     .fontWeight(.light)
                     
                 ZStack{
-                    goalText
+                    goalTextDisplay
                 }
                 HStack(spacing: 40){
                     Text("Dare completed:")
@@ -53,22 +54,57 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-    private func determineGoalText() -> String {
-        // 1. Fetch a random goal & unwrap optional
-        let randomGoal = viewModel.fetchRandomGoal()?.description ?? "You have no dares. Please enter goals in the New Goals page."
-        return randomGoal
+//    private func determineGoalText() -> String {
+//        if viewModel.hasDayPassed() {
+//            // Generate a new goal
+//            print("A")
+//            let randomGoal = viewModel.fetchRandomGoal()?.description ?? "You have no dares. Please enter goals in the New Goals page."
+//                    
+//            // Save the current date to UserDefaults
+//            UserDefaults.standard.set(Date(), forKey: "lastGoalGenerationDate")
+//                    
+//            return randomGoal
+//        } else {
+//            print("B")
+//            // Use the existing goal or a default message
+//            return UserDefaults.standard.string(forKey: "lastGeneratedGoal") ?? "No goal generated yet."
+//        }
+//    }
+    private func determineGoalText(completion: @escaping (String) -> Void) {
+        if viewModel.hasDayPassed() {
+            viewModel.fetchRandomGoal { randomGoal in
+                // Handle the fetched result and update UI
+                DispatchQueue.main.async {
+                    if let randomGoal = randomGoal {
+                        // Generate a new goal
+                        let randomGoalDescription = randomGoal.description
+                        UserDefaults.standard.set(randomGoalDescription, forKey: "lastGeneratedGoal")
+                        self.goalText = randomGoalDescription
+                        completion(randomGoalDescription)
+                    } else {
+                        // Handle the case when no goal is fetched
+                        let defaultMessage = "No goal fetched"
+                        self.goalText = defaultMessage
+                        completion(defaultMessage)
+                    }
+                }
+            }
+        } else {
+            // Use the existing goal or a default message
+            let savedGoal = UserDefaults.standard.string(forKey: "lastGeneratedGoal") ?? "No goal generated yet."
+            completion(savedGoal)
+        }
     }
     
-    private var goalText : some View {
-        Text(determineGoalText())
-            .font(.largeTitle)
-            .fontWeight(.light)
-            .foregroundColor(Color.black)
-            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundColor(.figmaBeige) // Set background color
-            )
+    private var goalTextDisplay : some View {
+        Text("Placeholder goal")
+        .font(.largeTitle)
+        .fontWeight(.light)
+        .foregroundColor(Color.black)
+        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
+        .background(RoundedRectangle(cornerRadius: 8)
+            .foregroundColor(.figmaBeige) // Set background color
+        )
     }
     
     private var incompleteButton : some View {
