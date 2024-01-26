@@ -22,7 +22,9 @@ struct AllGoalsView: View {
                     goal in GoalInfoRow(goal)
                 }
                 .onAppear{
-                    viewModel.fetchGoals()
+                    viewModel.fetchGoals {
+                        print("Goals have been fetched!")
+                    }
                 }
                         
                 HorizontalBar

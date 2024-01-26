@@ -30,7 +30,7 @@ class ViewModel: ObservableObject{
         }
     }
     // MARK: - GET API handler
-    func fetchGoals(){
+    func fetchGoals(completion: @escaping () -> Void) {
         guard let url = URL(string: "http://35.245.47.106/api/users/1/goal/all/")
         else{
             return
@@ -49,6 +49,9 @@ class ViewModel: ObservableObject{
                 // UI update -- tasks in main thread so that app does not freeze
                 DispatchQueue.main.async {
                     self?.goals = response.goals
+                    
+                    // Call the completion handler after fetching goals
+                    completion()
                 }
             }
             catch {
@@ -59,45 +62,40 @@ class ViewModel: ObservableObject{
     }
     
     // MARK: - Grab random goal from all goals. Could be nil.
-//    func fetchRandomGoal() -> Goal? {
-//        fetchGoals()
-//        let randomGoal = goals.randomElement()
-//        // Save the last generated goal to UserDefaults
-//        if let randomGoalDescription = randomGoal?.description {
-//            UserDefaults.standard.set(randomGoalDescription, forKey: "lastGeneratedGoal")
-//        }
-//        return randomGoal
-//        
-//    }
     func fetchRandomGoal(completion: @escaping (Goal?) -> Void) {
-        fetchGoals()
-        let randomGoal = goals.randomElement()
-        // Save the last generated goal to UserDefaults
-        if let randomGoalDescription = randomGoal?.description {
-            UserDefaults.standard.set(randomGoalDescription, forKey: "lastGeneratedGoal")
+        fetchGoals {
+            DispatchQueue.main.async {
+                let randomGoal = self.goals.randomElement()
+                
+                // Save the last generated goal description to UserDefaults
+                if let randomGoalDescription = randomGoal?.description {
+                    UserDefaults.standard.set(randomGoalDescription, forKey: "lastGeneratedGoal")
+                }
+                
+                completion(randomGoal)
+            }
         }
-        completion(randomGoal)
     }
     
     // MARK: - determine whether a day has passed since the last goal was generated
     func hasDayPassed() -> Bool {
         guard let lastGenerationDate = UserDefaults.standard.value(forKey: "lastGoalGenerationDate") as? Date else {
             // If there's no stored date, a day has definitely passed
-            print("I am inside the guard let")
             return true
         }
         print("last generation date: \(lastGenerationDate)")
         let currentDate = Date()
         print("current date: \(currentDate)")
         let calendar = Calendar.current
-//        let components = calendar.dateComponents([.day], from: lastGenerationDate, to: currentDate)
-//        let daysPassed = components.day ?? 0
-//        print("days passed \(daysPassed)")
-//        return daysPassed > 0
-        let componentsMinutes = calendar.dateComponents([.minute], from: lastGenerationDate, to: currentDate)
-        let minutesPassed = componentsMinutes.minute ?? 0
-        print("minutes passed \(minutesPassed)")
-        return minutesPassed > 0
+        let componentsDays = calendar.dateComponents([.day], from: lastGenerationDate, to: currentDate)
+        let daysPassed = componentsDays.day ?? 0
+        print("Days passed \(daysPassed)")
+        return daysPassed > 0
+        // MARK: - for testing purposes, use minutes to demonstrate a new goal is incrementally fetched
+//        let componentsMinutes = calendar.dateComponents([.minute], from: lastGenerationDate, to: currentDate)
+//        let minutesPassed = componentsMinutes.minute ?? 0
+//        print("minutes passed \(minutesPassed)")
+//        return minutesPassed > 0
     }
     
     // MARK: - POST API handler
