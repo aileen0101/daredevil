@@ -25,6 +25,11 @@ struct ContentView: View {
         NavigationStack{
             homeFeed
         }
+        .onAppear {
+                    determineGoalText { fetchedGoalText in
+                        goalText = fetchedGoalText
+                    }
+                }
         
     }
     
@@ -54,22 +59,7 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-//    private func determineGoalText() -> String {
-//        if viewModel.hasDayPassed() {
-//            // Generate a new goal
-//            print("A")
-//            let randomGoal = viewModel.fetchRandomGoal()?.description ?? "You have no dares. Please enter goals in the New Goals page."
-//                    
-//            // Save the current date to UserDefaults
-//            UserDefaults.standard.set(Date(), forKey: "lastGoalGenerationDate")
-//                    
-//            return randomGoal
-//        } else {
-//            print("B")
-//            // Use the existing goal or a default message
-//            return UserDefaults.standard.string(forKey: "lastGeneratedGoal") ?? "No goal generated yet."
-//        }
-//    }
+
     private func determineGoalText(completion: @escaping (String) -> Void) {
         if viewModel.hasDayPassed() {
             viewModel.fetchRandomGoal { randomGoal in
@@ -97,7 +87,7 @@ struct ContentView: View {
     }
     
     private var goalTextDisplay : some View {
-        Text("Placeholder goal")
+        Text(self.goalText)
         .font(.largeTitle)
         .fontWeight(.light)
         .foregroundColor(Color.black)
