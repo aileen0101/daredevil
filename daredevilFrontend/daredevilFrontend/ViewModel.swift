@@ -16,9 +16,6 @@ struct NewGoalResponse: Codable {
 struct IsDone: Codable {
     let isDone: Bool
     
-    enum CodingKeys: String, CodingKey {
-            case isDone = "is_done"
-        }
 }
 
 struct GoalsResponse: Codable {
