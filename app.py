@@ -102,10 +102,10 @@ def mark_goal_complete(goal_id):
     if goal is None:
         return failure_response("Goal not found!")
     body = json.loads(request.data)
-    is_done = body.get("is_done")
-    if is_done is None:
+    done = body.get("done")
+    if done is None:
         return failure_response("Missing field!", 400)
-    goal.update_goal_by_id(is_done)
+    goal.update_goal_by_id(done)
     db.session.commit()
     return success_response(goal.serialize(), 201)
 
