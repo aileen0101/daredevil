@@ -110,8 +110,11 @@ struct ContentView: View {
     private var completeToggleButton : some View {
         Button {
             completed.toggle()
+            let isDoneObj = IsDone(isDone: self.completed)
+            print("Completed? \(self.completed)")
+            viewModel.markGoalComplete(isDoneInput: isDoneObj)
         } label: {
-            if completed == true {
+            if completed{
                 Image("done")
                     .resizable()
                     .frame(width: 42, height: 42)

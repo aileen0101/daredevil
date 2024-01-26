@@ -13,6 +13,14 @@ struct NewGoalResponse: Codable {
     let done: Bool
 }
 
+struct IsDone: Codable {
+    let isDone: Bool
+    
+    enum CodingKeys: String, CodingKey {
+            case isDone = "is_done"
+        }
+}
+
 struct GoalsResponse: Codable {
     let goals: [Goal]
 }
@@ -96,6 +104,49 @@ class ViewModel: ObservableObject{
 //        let minutesPassed = componentsMinutes.minute ?? 0
 //        print("minutes passed \(minutesPassed)")
 //        return minutesPassed > 0
+    }
+    
+    // MARK: - mark goal as completed (POST)
+    func markGoalComplete(isDoneInput: IsDone){
+        guard let url = URL(string: "http://35.245.47.106/api/goals/1/")
+        else{
+            return
+        }
+        // 1. Create a URL request
+        var request = URLRequest(url: url)
+        
+        // 2. set the method, body, and headers the endpoint requires
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            request.httpBody = try encoder.encode(isDoneInput)
+        } catch {
+            print(error)
+            return
+        }
+        
+        // 3. Make the request
+        let task = URLSession.shared.dataTask(with: request){data, _, error in
+            // unwrap and make sure we have data and error is nil
+            guard let data = data, error == nil else{
+                print("Invalid URL")
+                return
+            }
+            
+            // convert data into JSON
+            do {
+                let response = try JSONDecoder().decode(IsDone.self, from: data)
+                print("SUCCESS:  \(response)")
+            }
+            catch {
+                print(error)
+            }
+        }
+        task.resume()
+        
     }
     
     // MARK: - POST API handler
