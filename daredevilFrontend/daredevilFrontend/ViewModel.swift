@@ -13,8 +13,8 @@ struct NewGoalResponse: Codable {
     let done: Bool
 }
 
-struct IsDone: Codable {
-    let isDone: Bool
+struct Done: Codable {
+    let done: Bool
     
 }
 
@@ -104,7 +104,7 @@ class ViewModel: ObservableObject{
     }
     
     // MARK: - mark goal as completed (POST)
-    func markGoalComplete(isDoneInput: IsDone){
+    func markGoalComplete(done: Done){
         guard let url = URL(string: "http://35.245.47.106/api/goals/1/")
         else{
             return
@@ -119,7 +119,7 @@ class ViewModel: ObservableObject{
         do {
             let encoder = JSONEncoder()
             encoder.keyEncodingStrategy = .convertToSnakeCase
-            request.httpBody = try encoder.encode(isDoneInput)
+            request.httpBody = try encoder.encode(done)
         } catch {
             print(error)
             return
@@ -135,7 +135,7 @@ class ViewModel: ObservableObject{
             
             // convert data into JSON
             do {
-                let response = try JSONDecoder().decode(IsDone.self, from: data)
+                let response = try JSONDecoder().decode(Done.self, from: data)
                 print("SUCCESS:  \(response)")
             }
             catch {

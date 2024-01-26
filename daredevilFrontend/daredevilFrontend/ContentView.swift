@@ -110,9 +110,9 @@ struct ContentView: View {
     private var completeToggleButton : some View {
         Button {
             completed.toggle()
-            let isDoneObj = IsDone(isDone: self.completed)
+            let isDoneObj = Done(done: self.completed)
             print("Completed? \(self.completed)")
-            viewModel.markGoalComplete(isDoneInput: isDoneObj)
+            viewModel.markGoalComplete(done: isDoneObj)
         } label: {
             if completed{
                 Image("done")
@@ -163,4 +163,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-\
