@@ -10,6 +10,7 @@ import SwiftUI
 struct DailyGoalView: View {
     // MARK: - Properties
     @State private var completed : Bool = false
+    @State private var giveGoal : Bool = false
     @StateObject var viewModel = ViewModel()
     @State private var goalText: String = ""
     @State private var username = ""
@@ -125,7 +126,7 @@ struct DailyGoalView: View {
     private var navBar : some View {
         HStack(spacing: 40){
             Spacer()
-            giftButton
+            giftButtonLayout
             Spacer()
             NavigationLink(destination: NewGoalView()) {
                 addNewButton
@@ -139,7 +140,28 @@ struct DailyGoalView: View {
         .padding(.top, 20) // Add padding above the buttons
         .background(Color.figmaGreen)
     }
+    
     private var giftButton: some View {
+        Button {
+            giveGoal.toggle()
+            if giveGoal {
+                viewModel.fetchUncompletedGoals {
+                    <#code#>
+                }
+            } else{
+                print("Error fetching a new goal")
+            }
+        } label: {
+            giftButtonLayout
+        }
+//        .onAppear {
+//                    // Fetch uncompleted goals when the view appears
+//                    viewModel.fetchUncompletedGoals {
+//                        // Handle completion if needed
+//                    }
+    }
+    
+    private var giftButtonLayout: some View {
         Image("gift")
             .resizable()
             .frame(width: 56, height: 56)

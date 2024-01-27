@@ -30,6 +30,8 @@ class ViewModel: ObservableObject{
     @Published var goals: [Goal] = []
     @Published var randomGoalDisplay: Goal = Goal(id: 0, title: "", description:"", done: false) // need a default goal to replace later
     private var lastDisplayedDate: Date?
+    @Published var uncompletedGoals : [Goal] = []
+    @Published var uncompletedGoal: Goal?
     
     // MARK: - INIT function - save the time you first open the app in User Defaults
     init() {
@@ -68,6 +70,44 @@ class ViewModel: ObservableObject{
             }
         }
         task.resume()
+    }
+    
+    // MARK: - GET API handler to retrieve uncompleted goals
+    func fetchUncompletedGoals(completion: @escaping () -> Void) {
+        guard let url = URL(string: "http://35.245.47.106/api/1/goals/uncompleted/")
+        else{
+            return
+        }
+        // use weak self so that no memory leak
+        let task = URLSession.shared.dataTask(with: url){[weak self] data, _, error in
+            // Validate that we didn't get an error
+            guard let data = data, error == nil else{
+                print("Invalid URL")
+                return
+            }
+        
+            do {
+                let response = try JSONDecoder().decode(GoalsResponse.self, from: data)
+                
+                // UI update -- tasks in main thread so that app does not freeze
+                DispatchQueue.main.async {
+                    self?.goals = response.goals
+                    
+                    // Call the completion handler after fetching goals
+                    completion()
+                }
+            }
+            catch {
+                print(error)
+            }
+        }
+        task.resume()
+        
+        if let firstUncompletedGoal = uncompletedGoals.first(where: { !$0.done }) {
+                    self.uncompletedGoal = firstUncompletedGoal
+                }
+
+            completion()
     }
     
     // MARK: - Grab random goal from all goals. Could be nil.
