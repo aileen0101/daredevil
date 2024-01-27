@@ -28,9 +28,10 @@ struct NewGoalView: View {
                 mainBody
                 navBar
             }
-            .navigationTitle(Text("New Dares"))
-            .navigationBarTitleDisplayMode(.inline)
+//            .navigationTitle(Text("New Dares"))
+//            .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationBarHidden(true)
     }
     
     private var mainBody: some View{
@@ -96,13 +97,14 @@ struct NewGoalView: View {
     private var navBar : some View {
         HStack{
             Spacer()
-            NavigationLink(destination: ContentView()){
+            NavigationLink(destination: DailyGoalView()){
                 backToMainViewButton
             }
             Spacer()
         }
-        .padding(.top, 30) // Add padding above the button
-        .padding(.bottom,40)
+        .padding(.top, 10) // Add padding above the button
+//        .padding(.bottom,40)
+        .padding()
         .background(Color.figmaGreen)
     }
     

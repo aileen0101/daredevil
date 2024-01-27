@@ -32,8 +32,9 @@ struct AllGoalsView: View {
             
             
             .padding(.top, 10)
-            .navigationTitle(Text("All Dares"))
-            .navigationBarTitleDisplayMode(.inline)
+//            .navigationTitle(Text("All Dares"))
+//            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(true)
         }
     }
     
@@ -101,7 +102,7 @@ private var handleIcons: some View {
     HStack(spacing: 70) {
     Spacer()
     NavigationLink {
-        ContentView()
+        DailyGoalView()
     } label: {
         backIcon
     }

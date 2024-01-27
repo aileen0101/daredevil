@@ -22,6 +22,10 @@ struct GoalsResponse: Codable {
     let goals: [Goal]
 }
 
+struct UserInput: Codable {
+    let name: String
+}
+
 class ViewModel: ObservableObject{
     @Published var goals: [Goal] = []
     @Published var randomGoalDisplay: Goal = Goal(id: 0, title: "", description:"", done: false) // need a default goal to replace later
@@ -187,6 +191,55 @@ class ViewModel: ObservableObject{
         }
         task.resume()
         
+    }
+    
+    // MARK: - Create user/user login
+    func createUser(userInput: UserInput, completion: @escaping () -> Void) {
+        guard let url = URL(string: "http://35.245.47.106/api/users") else {
+            return
+        }
+
+        // 1. Create a URL request
+        var request = URLRequest(url: url)
+        
+        // 2. set the method, body, and headers the endpoint requires
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            request.httpBody = try encoder.encode(userInput)
+        } catch {
+            print(error)
+            return
+        }
+
+        // 3. Make the request
+        DispatchQueue.global(qos: .background).async {
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                // unwrap and make sure we have data and error is nil
+                guard let data = data, error == nil else {
+                    print("Invalid URL")
+                    return
+                }
+
+                // convert data into JSON
+                do {
+                    let response = try JSONDecoder().decode(UserInput.self, from: data)
+                    print("SUCCESS:  \(response)")
+
+                    // Call the completion closure on the main thread
+                    DispatchQueue.main.async {
+                        completion()
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+
+            task.resume()
+        }
     }
 }
 
