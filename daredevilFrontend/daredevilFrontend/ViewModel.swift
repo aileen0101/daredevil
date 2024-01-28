@@ -26,6 +26,10 @@ struct UserInput: Codable {
     let name: String
 }
 
+struct UncompletedGoals: Codable {
+    let uncompletedGoals: [Goal]
+}
+
 class ViewModel: ObservableObject{
     @Published var goals: [Goal] = []
     @Published var randomGoalDisplay: Goal = Goal(id: 0, title: "", description:"", done: false) // need a default goal to replace later
@@ -87,11 +91,11 @@ class ViewModel: ObservableObject{
             }
         
             do {
-                let response = try JSONDecoder().decode(GoalsResponse.self, from: data)
+                let response = try JSONDecoder().decode(UncompletedGoals.self, from: data)
                 
                 // UI update -- tasks in main thread so that app does not freeze
                 DispatchQueue.main.async {
-                    self?.goals = response.goals
+                    self?.uncompletedGoals = response.uncompletedGoals
                     
                     // Call the completion handler after fetching goals
                     completion()
@@ -102,12 +106,6 @@ class ViewModel: ObservableObject{
             }
         }
         task.resume()
-        
-        if let firstUncompletedGoal = uncompletedGoals.first(where: { !$0.done }) {
-                    self.uncompletedGoal = firstUncompletedGoal
-                }
-
-            completion()
     }
     
     // MARK: - Grab random goal from all goals. Could be nil.

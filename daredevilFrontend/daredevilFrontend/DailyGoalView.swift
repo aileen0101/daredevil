@@ -126,7 +126,7 @@ struct DailyGoalView: View {
     private var navBar : some View {
         HStack(spacing: 40){
             Spacer()
-            giftButtonLayout
+            giftButton
             Spacer()
             NavigationLink(destination: NewGoalView()) {
                 addNewButton
@@ -146,20 +146,21 @@ struct DailyGoalView: View {
             giveGoal.toggle()
             if giveGoal {
                 viewModel.fetchUncompletedGoals {
-                    <#code#>
+                    if let firstUncompletedGoal = viewModel.uncompletedGoals.first(where: { !$0.done }) {
+                        viewModel.uncompletedGoal = firstUncompletedGoal
+
+                        // Update goalText
+                        self.goalText = firstUncompletedGoal.description
+                    }
                 }
-            } else{
+            } else {
                 print("Error fetching a new goal")
             }
         } label: {
             giftButtonLayout
         }
-//        .onAppear {
-//                    // Fetch uncompleted goals when the view appears
-//                    viewModel.fetchUncompletedGoals {
-//                        // Handle completion if needed
-//                    }
     }
+
     
     private var giftButtonLayout: some View {
         Image("gift")
