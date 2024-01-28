@@ -3,6 +3,8 @@ import json
 from db import db
 from db import User
 from db import Goal
+import users_dao
+import datetime
 
 from flask import Flask, request
 
@@ -27,11 +29,146 @@ def failure_response(message, code=404):
     return json.dumps({"error": message}), code
 
 
+def extract_token(request):
+    """
+    Helper function that extracts the token from the header of a request
+    """
+    auth_header = request.headers.get("Authorization")
+    if auth_header is None:
+        return False, failure_response("missing auth header")
+    bearer_token = auth_header.replace("Bearer", "").strip()
+
+    if not bearer_token:
+        return False, failure_response("invalid auth header")
+
+    return True, bearer_token
+
+
 # your routes here
+
+
+# -- AUNTHENTICATION -----------------------------------------------------------
+@app.route("/register/", methods=["POST"])
+def register_account():
+    """
+    Endpoint for registering a new user
+    """
+    body = json.loads(request.data)
+    email = body.get("email")
+    password = body.get("password")
+
+    if email is None or password is None:
+        return json.dumps({"error": "Invalid email or password"})
+
+    created, user = users_dao.create_user(email, password)
+
+    if not created:
+        return json.dumps({"error": "User already exists"})
+
+    return json.dumps(
+        {
+            "session_token": user.session_token,
+            "session_expiration": str(user.session_expiration),
+            "update_token": user.update_token,
+        }
+    )
+
+
+@app.route("/login/", methods=["POST"])
+def login():
+    """
+    Endpoint for logging in a user.
+    """
+    body = json.loads(request.data)
+    email = body.get("email")
+    password = body.get("password")
+
+    if email is None or password is None:
+        return failure_response("Invalid email or passowrd", 400)
+
+    success, user = users_dao.verify_credentials(email, password)
+
+    if not success:
+        return failure_response("Invalid email or password", 400)
+
+    return json.dumps(
+        {
+            "session_token": user.session_token,
+            "session_expiration": str(user.session_expiration),
+            "update_token": user.update_token,
+        }
+    )
+
+
+@app.route("/session/", methods=["POST"])
+def update_session():
+    """
+    Endpoint for updating a user's session
+    """
+    success, update_token = extract_token(request)
+
+    if not success:
+        return update_token
+
+    user = users_dao.renew_session(update_token)
+
+    if user is None:
+        return failure_response("invalid update token")
+
+    return json.dumps(
+        {
+            "session_token": user.session_token,
+            "session_expiration": str(user.session_expiration),
+            "update_token": user.update_token,
+        }
+    )
+
+
+@app.route("/secret/", methods=["GET"])
+def secret_message():
+    """
+    Endpoint for verifying a session token and returning a secret message.
+    """
+    success, session_token = extract_token(request)
+
+    if not success:
+        return session_token
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if user is None or user.verify_session_token(session_token):
+        return failure_response("invalid session token")
+
+    return failure_response("Implemented session token successfully"), 200
+
+
+@app.route("/logout/", methods=["POST"])
+def logout():
+    """
+    Endpoint for logging out a user.
+    """
+    success, session_token = extract_token(request)
+    if not success:
+        return session_token
+
+    user = users_dao.get_user_by_session_token(session_token)
+
+    if not user or not user.verify_session_token(session_token):
+        return failure_response("invalid session token", 400)
+
+    user.session_expiration = datetime.datetime.now()
+    db.session.commit()
+    return success_response("User has successfully logged out.")
 
 
 # -- USER ROUTES ---------------------------------------------------------------
 @app.route("/")
+def base_endpoint():
+    """
+    Endpoing for displaying welcome message.
+    """
+    return json.dumps({"message": "Welcome to Daredevil!"})
+
+
 @app.route("/api/users/", methods=["GET"])
 def get_users():
     """
