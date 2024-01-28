@@ -124,7 +124,7 @@ def update_session():
     )
 
 
-@app.route("/secret/", methods=["GET"])
+@app.route("/secret/", methods=["POST"])
 def secret_message():
     """
     Endpoint for verifying a session token and returning a secret message.
@@ -135,10 +135,10 @@ def secret_message():
         return session_token
 
     user = users_dao.get_user_by_session_token(session_token)
-    if user is None or user.verify_session_token(session_token):
+    if user is None or not user.verify_session_token(session_token):
         return failure_response("invalid session token")
 
-    return failure_response("Implemented session token successfully"), 200
+    return success_response({"message": "Implemented session token successfully"})
 
 
 @app.route("/logout/", methods=["POST"])
@@ -157,7 +157,7 @@ def logout():
 
     user.session_expiration = datetime.datetime.now()
     db.session.commit()
-    return success_response("User has successfully logged out.")
+    return success_response({"message": "User has successfully logged out."})
 
 
 # -- USER ROUTES ---------------------------------------------------------------

@@ -56,7 +56,7 @@ class User(db.Model):
         """
         Randomly generates hashed tokens (used for session/update tokens)
         """
-        return hashlib.sha1(os.urandom(64).hexdigest())
+        return hashlib.sha1(os.urandom(64)).hexdigest()
 
     def renew_session(self):
         """
@@ -66,7 +66,7 @@ class User(db.Model):
         3. Creates a new update token
         """
         self.session_token = self._urlsafe_base_64()
-        self.session_expiration = datetime.dateime.now() + datetime.timedelta(days=1)
+        self.session_expiration = datetime.datetime.now() + datetime.timedelta(days=1)
         self.update_token = self._urlsafe_base_64()
 
     def verify_password(self, password):
