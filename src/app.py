@@ -1,9 +1,9 @@
 import json
 
-from db import db
-from db import User
-from db import Goal
-import users_dao
+from src.db import db
+from src.db import User
+from src.db import Goal
+import src.users_dao as users_dao
 import datetime
 
 from flask import Flask, request
