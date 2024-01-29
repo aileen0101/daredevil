@@ -20,6 +20,8 @@ struct ContentView: View {
     @State private var username = ""
     @State private var wrongUsername = 0
     @State private var userIsLoggedIn = false
+    @State private var email = ""
+    @State private var password = ""
     
     // MARK: - Main view
     var body: some View {
@@ -47,12 +49,25 @@ struct ContentView: View {
                         .bold()
                         .padding()
                     TextField("Username", text: $username)
+                        .autocapitalization(.none)  // Disable autocapitalization
                         .padding()
                         .frame(width: 300, height: 50)
                         .background(Color.black.opacity(0.05))
                         .cornerRadius(10)
                         // Border that appears if user picks wrong username
                         .border(.red, width: CGFloat(wrongUsername))
+                    TextField("Email", text: $email)
+                        .autocapitalization(.none)  // Disable autocapitalization
+                        .padding()
+                        .frame(width: 300, height: 50)
+                        .background(Color.black.opacity(0.05))
+                        .cornerRadius(10)
+                    SecureField("Password", text: $password)
+                        .autocapitalization(.none)  // Disable autocapitalization
+                        .padding()
+                        .frame(width: 300, height: 50)
+                        .background(Color.black.opacity(0.05))
+                        .cornerRadius(10)
                     loginButton
                     NavigationLink(
                         destination: NewGoalView(),

@@ -66,8 +66,11 @@ struct NewGoalView: View {
             }
                
             TextField("Enter title . . .", text: $newDareTitle)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(EdgeInsets(top: 16, leading: 30, bottom: 16, trailing: 30))
+                .autocapitalization(.none)  // Disable autocapitalization
+                .padding()
+                .frame(width: 350, height: 50)
+                .background(Color.black.opacity(0.05))
+                .cornerRadius(10)
 
         }
     }
@@ -88,24 +91,51 @@ struct NewGoalView: View {
                 
             }
             TextField("Enter description . . .", text: $newDareDescription)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(EdgeInsets(top: 16, leading: 30, bottom: 32, trailing: 30))
+                .autocapitalization(.none)  // Disable autocapitalization
+                .padding()
+                .frame(width: 350, height: 150)
+                .background(Color.black.opacity(0.05))
+                .cornerRadius(10)
 
         }
     }
     
     private var navBar : some View {
-        HStack{
+        HStack(spacing: 40){
             Spacer()
-            NavigationLink(destination: DailyGoalView()){
-                backToMainViewButton
+            NavigationLink(destination: DailyGoalView()) {
+                giftButtonLayout
+            }
+            Spacer()
+            NavigationLink(destination: AllGoalsView()) {
+                seeTableButton
             }
             Spacer()
         }
-        .padding(.top, 10) // Add padding above the button
-//        .padding(.bottom,40)
-        .padding()
+        .padding(.top, 20) // Add padding above the buttons
+        .padding(.bottom, 40)
         .background(Color.figmaGreen)
+    }
+    
+    private var giftButton: some View {
+        Button {
+            // TODO: - Update nav link
+        } label: {
+            giftButtonLayout
+        }
+    }
+
+    
+    private var giftButtonLayout: some View {
+        Image("gift")
+            .resizable()
+            .frame(width: 56, height: 56)
+    }
+    
+    private var seeTableButton: some View {
+        Image("table")
+            .resizable()
+            .frame(width: 56, height: 56)
     }
     
     private var addGoalButton : some View {
