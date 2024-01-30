@@ -9,19 +9,19 @@ Our app asks users to input a set of challenges, and each day, Daredevil generat
 ## Frontend
 **Login**
 <p float="left">
-  <img src="login.png" width="100" />
+  <img src="/readme_img/login.png" width="100" />
 </p>
 
 **Input new challenges & see all challenges**
 <p float="left">
-  <img src="newGoal.png" width="100" /> 
-  <img src="allGoal.png" width="108" />
+  <img src="/readme_img/newGoal.png" width="100" /> 
+  <img src="/readme_img/allGoal.png" width="108" />
 </p>
 
 **See daily goal and mark complete goal.**
 <p float="left">
-  <img src="dailygoal.png" width="100" />
-  <img src=completegoal.png width="103">
+  <img src="/readme_img/dailygoal.png" width="100" />
+  <img src="/readme_img/completegoal.png" width="103">
 </p>
 
 
