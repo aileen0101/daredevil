@@ -15,7 +15,7 @@ Our app asks users to input a set of challenges, and each day, Daredevil generat
 **Input new challenges & see all challenges**
 <p float="left">
   <img src="/readme_img/newGoal.png" width="200" /> 
-  <img src="/readme_img/allGoal.png" width="213" />
+  <img src="/readme_img/allGoal.png" width="216" />
 </p>
 
 **See daily goal and mark complete goal.**
