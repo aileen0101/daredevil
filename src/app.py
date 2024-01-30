@@ -1,9 +1,9 @@
 import json
 
-from src.db import db
-from src.db import User
-from src.db import Goal
-import src.users_dao as users_dao
+from db import db
+from db import User
+from db import Goal
+import users_dao as users_dao
 import datetime
 
 from flask import Flask, request
@@ -56,11 +56,15 @@ def register_account():
     body = json.loads(request.data)
     email = body.get("email")
     password = body.get("password")
+    input_name = body.get("name")
+
+    if input_name is None:
+        return failure_response("Missing name field!", 400)
 
     if email is None or password is None:
         return json.dumps({"error": "Invalid email or password"})
 
-    created, user = users_dao.create_user(email, password)
+    created, user = users_dao.create_user(input_name, email, password)
 
     if not created:
         return json.dumps({"error": "User already exists"})

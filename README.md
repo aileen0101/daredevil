@@ -11,7 +11,7 @@ Our project is built with Swift using the SwiftUI framework. We used Model-View-
 
 ## Backend
 
-We used SQLAlchemy to represent our database in the backend. We implemented a one-to-many relationship in our database file and 12 endpoints (5 endpoints for token-based authentication, 7 for app functionality). We developed API’s using the Flask framework, and we employed Postman for testing our endpoints. Lastly, we used Docker and Google Cloud Services for deploying our code into a publicly accessible API (with an IP address of 35.245.47.106). 
+We used SQLAlchemy to represent our database in the backend. We implemented a one-to-many relationship in our database file and 12 endpoints (5 endpoints for token-based authentication, 7 for app functionality). We developed API’s using the Flask framework, and we employed Postman for testing our endpoints. Lastly, we used Docker and Google Cloud Services for deploying our code into a publicly accessible API (with an IP address of 34.145.190.118). 
 
 ## Challenges & Hopes
 Some challenges we faced include designing the views for the frontend on Figma. This was the moment where we realized and fully appreciated just how much planning and informed decision-making goes on behind the scenes of today’s most popular apps and their sleek designs. We focused on simplicity and straightforward navigation for our UI, but we hope to make our views more visually appealing in the future. We also faced numerous concurrency issues while integrating the backend and frontend together. We hope to strengthen authorization in the future, and hopefully include some web-scraping functionality/AI component to help generate fun activities for people who are blanking on what challenges they want to give themselves. 

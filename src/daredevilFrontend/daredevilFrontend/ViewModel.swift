@@ -233,7 +233,7 @@ class ViewModel: ObservableObject{
     
     // MARK: - Create user/user login
     func createUser(userInput: UserInput, completion: @escaping () -> Void) {
-        guard let url = URL(string: "http://34.145.190.118/api/users") else {
+        guard let url = URL(string: "http://34.145.190.118/register/") else {
             return
         }
 
