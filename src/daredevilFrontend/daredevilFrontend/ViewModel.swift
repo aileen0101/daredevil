@@ -24,6 +24,8 @@ struct GoalsResponse: Codable {
 
 struct UserInput: Codable {
     let name: String
+    let email: String
+    let password: String
 }
 
 struct UncompletedGoals: Codable {

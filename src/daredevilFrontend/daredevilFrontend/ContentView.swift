@@ -83,7 +83,7 @@ struct ContentView: View {
     
     private var loginButton: some View {
         Button("Login"){
-            let userInputObj = UserInput(name: self.username)
+            let userInputObj = UserInput(name: self.username, email: self.email, password: self.password)
             
             // Create a dispatch group
             let dispatchGroup = DispatchGroup()
