@@ -1,6 +1,6 @@
 version: "3"
 services:
   demo:
-    image: "aeh2455/daredevil"
+    image: "aeh2455/daredevil-redo"
     ports:
     - "80:8000"

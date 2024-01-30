@@ -27,7 +27,7 @@ struct UserInput: Codable {
 }
 
 struct UncompletedGoals: Codable {
-    let uncompletedGoals: [Goal]
+    let uncompleted: [Goal]
 }
 
 class ViewModel: ObservableObject{
@@ -46,7 +46,7 @@ class ViewModel: ObservableObject{
     }
     // MARK: - GET API handler
     func fetchGoals(completion: @escaping () -> Void) {
-        guard let url = URL(string: "http://35.245.47.106/api/users/1/goal/all/")
+        guard let url = URL(string: "http://34.145.190.118/api/users/1/goal/all/")
         else{
             return
         }
@@ -78,7 +78,7 @@ class ViewModel: ObservableObject{
     
     // MARK: - GET API handler to retrieve uncompleted goals
     func fetchUncompletedGoals(completion: @escaping () -> Void) {
-        guard let url = URL(string: "http://35.245.47.106/api/1/goals/uncompleted/")
+        guard let url = URL(string: "http://34.145.190.118/api/1/goals/uncompleted/")
         else{
             return
         }
@@ -95,7 +95,7 @@ class ViewModel: ObservableObject{
                 
                 // UI update -- tasks in main thread so that app does not freeze
                 DispatchQueue.main.async {
-                    self?.uncompletedGoals = response.uncompletedGoals
+                    self?.uncompletedGoals = response.uncompleted
                     
                     // Call the completion handler after fetching goals
                     completion()
@@ -147,7 +147,7 @@ class ViewModel: ObservableObject{
     
     // MARK: - mark goal as completed (POST)
     func markGoalComplete(done: Done){
-        guard let url = URL(string: "http://35.245.47.106/api/goals/1/")
+        guard let url = URL(string: "http://34.145.190.118/api/goals/1/")
         else{
             return
         }
@@ -190,7 +190,7 @@ class ViewModel: ObservableObject{
     
     // MARK: - POST API handler
     func makePostRequest(newGoalBody: NewGoalResponse){
-        guard let url = URL(string: "http://35.245.47.106/api/users/1/goal/")
+        guard let url = URL(string: "http://34.145.190.118/api/users/1/goal/")
         else{
             return
         }
@@ -233,7 +233,7 @@ class ViewModel: ObservableObject{
     
     // MARK: - Create user/user login
     func createUser(userInput: UserInput, completion: @escaping () -> Void) {
-        guard let url = URL(string: "http://35.245.47.106/api/users") else {
+        guard let url = URL(string: "http://34.145.190.118/api/users") else {
             return
         }
 

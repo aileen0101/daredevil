@@ -261,7 +261,7 @@ def get_uncompleted_goals(user_id):
     for goal in user_goals:
         if goal.get("done") == False:
             uncompleted_goals.append(goal)
-    return success_response({"uncompleted_goals": uncompleted_goals})
+    return success_response({"uncompleted": uncompleted_goals})
 
 
 if __name__ == "__main__":
