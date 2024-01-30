@@ -24,6 +24,8 @@ struct GoalsResponse: Codable {
 
 struct UserInput: Codable {
     let name: String
+    let email: String
+    let password: String
 }
 
 struct UncompletedGoals: Codable {
@@ -46,7 +48,7 @@ class ViewModel: ObservableObject{
     }
     // MARK: - GET API handler
     func fetchGoals(completion: @escaping () -> Void) {
-        guard let url = URL(string: "http://34.145.190.118/api/users/1/goal/all/")
+        guard let url = URL(string: "http://127.0.0.1:8000/api/users/1/goal/all/")
         else{
             return
         }
