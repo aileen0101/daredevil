@@ -7,11 +7,22 @@ Dust off your bucket lists and start transforming those pipe dreams into concret
 Our app asks users to input a set of challenges, and each day, Daredevil generates a random, uncompleted challenge. We dare you to tackle one of your challenges today, but if you don't finish, no problem! Tomorrow is a new day, and a completely different challenge to provide a clean slate and to keep users on their feet. It might take multiple days or (weeks etc.) to complete a challenge depending on its nature, but Daredevil emphasizes progress over immediate results. This app keeps you accountable by sending reminders throughout the day. Once a user marks a daily challenge as complete and their set of challenges dwindles below a threshold, Daredevil asks for more challenges as input. 
 
 ## Frontend
-<img height="450" alt="ss1" src="login.png">
-<img height="450" alt="ss1" src="newGoal.png">
-<img height="450" alt="ss1" src="allGoal.png">
-<img height="450" alt="ss1" src="dailygoal.png">
-<img height="450" alt="ss1" src="completegoal.png">
+**Login**
+<p float="left">
+  <img src="login.png" width="100" />
+</p>
+
+**Input new challenges & see all challenges**
+<p float="left">
+  <img src="newGoal.png" width="100" /> 
+  <img src="allGoal.png" width="108" />
+</p>
+
+**See daily goal and mark complete goal.**
+<p float="left">
+  <img src="dailygoal.png" width="100" />
+  <img src=completegoal.png width="103">
+</p>
 
 
 Our project is built with Swift using the SwiftUI framework. We used Model-View-View Model architectural pattern and URLSession for Networking. We currently have 4 views but are working on adding more. We used Figma to design our views.
